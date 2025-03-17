@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUserCont } from '../controllers/userController';
+import { createUserCont, getAllUsers } from '../controllers/userController';
 const router = Router();
 
 /**
@@ -35,5 +35,32 @@ const router = Router();
  *         description: Error creating user
  */
 router.post('/', createUserCont);
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Users retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   username:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                   role:
+ *                     type: string
+ *                     enum: [Admin, Seller, Buyer]
+ *       500:
+ *         description: Error retrieving users
+ */
+router.get('/', getAllUsers);
 
 export default router;

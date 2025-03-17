@@ -56,12 +56,5 @@ mongoose.connection.once('open', async () => {
 
 mongoose.connection.on('error', (err) => {
     console.error('Database connection error:', err);
-    // logEvents(
-    //     `${err.name}: ${err.message}\t${err.syscall}\t${err.hostname}`,
-    //     'mongoErrLog.log'
-    // );
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running at http://localhost:${PORT}`);
-// });

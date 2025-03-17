@@ -42,5 +42,9 @@ export const createUser = async (userData: User) => {
     const user = new UserModel(userData);
     await user.save();
 };
+export const getUser = async()=>{
+    const users = await UserModel.find().select('-password'); // Exclude passwords
+    return users
+}
 
 export default UserModel;

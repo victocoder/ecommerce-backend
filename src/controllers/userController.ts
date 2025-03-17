@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import UserModel, { createUser, User } from "../models/User"; // Adjust the path as necessary
+import UserModel, { createUser, getUser, User } from "../models/User"; // Adjust the path as necessary
 import bcrypt from 'bcrypt';
 
 
@@ -23,5 +23,15 @@ import bcrypt from 'bcrypt';
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ message: 'Error creating user', error });
+    }
+};
+
+export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const users = await getUser()
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Error retrieving users:', error);
+        res.status(500).json({ message: 'Error retrieving users', error });
     }
 };
