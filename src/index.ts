@@ -7,6 +7,9 @@ import cors from 'cors'
 import connectMongoDb from "./config/connectMongoDb";
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import userRoute from './routes/userRoute'
 dotenv.config()
 const app = express();
 const PORT = 3000;
@@ -19,6 +22,26 @@ app.use(cors({
 app.use(compression())
 app.use(cookieParser())
 app.use(bodyParser.json())
+const options: swaggerJSDoc.Options = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Express API with Swagger',
+        version: '1.0.0',
+        description: 'API documentation for your Express application',
+      },
+      servers: [
+        {
+          url: 'http://localhost:3000', // Change based on your environment
+        },
+      ],
+    },
+    apis: ['src/routes/*.ts'], // Point to route files where docs are written
+  };
+
+const swaggerDocs = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/user',userRoute)
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });

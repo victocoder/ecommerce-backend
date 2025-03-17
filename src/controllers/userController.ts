@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import UserModel, { createUser, User } from "../models/User"; // Adjust the path as necessary
 import bcrypt from 'bcrypt';
 
+
  export const createUserCont = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password, role } = req.body;
 
