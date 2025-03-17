@@ -4,6 +4,10 @@ import bodyParser  from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from 'cors'
+import connectMongoDb from "./config/connectMongoDb";
+import mongoose from "mongoose";
+import dotenv from 'dotenv'
+dotenv.config()
 const app = express();
 const PORT = 3000;
 
@@ -18,7 +22,23 @@ app.use(bodyParser.json())
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
-
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+connectMongoDb()
+mongoose.connection.once('open', async () => {
+    console.log('Connected to MongoDB');
+    // await userController.createRootUser();
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });
+
+mongoose.connection.on('error', (err) => {
+    console.error('Database connection error:', err);
+    // logEvents(
+    //     `${err.name}: ${err.message}\t${err.syscall}\t${err.hostname}`,
+    //     'mongoErrLog.log'
+    // );
+});
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running at http://localhost:${PORT}`);
+// });
